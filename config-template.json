@@ -1,0 +1,18 @@
+{
+  "provider": "deepseek",
+  "providers": {
+    "deepseek": {
+      "type": "@ai-sdk/openai-compatible",
+      "baseURL": "https://api.deepseek.com/v1",
+      "apiKey": "YOUR_DEEPSEEK_API_KEY_HERE",
+      "headers": {},
+      "models": {
+        "deepseek-v4-pro": {
+          "label": "DeepSeek V4 Pro",
+          "description": "DeepSeek-V4 production model via OpenAI-compatible API"
+        }
+      }
+    }
+  },
+  "defaultModel": "deepseek-v4-pro"
+}
