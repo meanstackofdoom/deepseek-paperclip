@@ -44,6 +44,16 @@ For production use, configure the key through Paperclip's sealed env vars UI rat
 - The `config-template.json` contains a placeholder API key (`YOUR_DEEPSEEK_API_KEY_HERE`). Replace it with your actual key through environment variables or sealed project env vars — **never** by editing the committed config file.
 - This release is a **sanitized extract**. No internal infrastructure paths, credentials, or Paperclip instance metadata are included. Zero secrets leaked.
 
+## Known Behaviour
+
+### DeepSeek V4 Pro is a reasoning model
+
+DeepSeek V4 Pro uses internal chain-of-thought tokens before emitting a response. This means:
+
+- **Set `max_tokens` to 500 or higher.** Low values (< ~100) exhaust the token budget during reasoning and produce an empty response body with `finish_reason: length`.
+- The API response includes a `reasoning_content` field alongside `content` — this is normal.
+- Tested live: the model responds correctly with `max_tokens >= 500`. The `config-template.json` defaults to `8192`.
+
 ## Files
 
 | File               | Purpose                                         |

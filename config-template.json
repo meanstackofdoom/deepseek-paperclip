@@ -9,7 +9,8 @@
       "models": {
         "deepseek-v4-pro": {
           "label": "DeepSeek V4 Pro",
-          "description": "DeepSeek-V4 production model via OpenAI-compatible API"
+          "description": "DeepSeek-V4 production model via OpenAI-compatible API",
+          "max_tokens": 8192
         }
       }
     }
