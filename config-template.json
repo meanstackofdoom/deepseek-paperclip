@@ -11,6 +11,11 @@
           "label": "DeepSeek V4 Pro",
           "description": "DeepSeek-V4 production model via OpenAI-compatible API",
           "max_tokens": 8192
+        },
+        "deepseek-reasoner": {
+          "label": "DeepSeek Reasoner",
+          "description": "DeepSeek reasoning model (R1). Emits chain-of-thought in reasoning_content before final response. Use max_tokens >= 500.",
+          "max_tokens": 8192
         }
       }
     }

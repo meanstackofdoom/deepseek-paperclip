@@ -22,11 +22,13 @@ cp config-template.json ~/.opencode/config.json
 
 In Paperclip, create or edit an agent with these settings:
 
-| Field       | Value                        |
-|-------------|------------------------------|
-| Adapter     | OpenCode (local)             |
-| Command     | opencode                     |
-| Model       | deepseek-v4-pro              |
+| Field       | Value                                            |
+|-------------|--------------------------------------------------|
+| Adapter     | OpenCode (local)                                 |
+| Command     | opencode                                         |
+| Model       | `deepseek-v4-pro` or `deepseek-reasoner`         |
+
+Both models are defined in `config-template.json`. Use `deepseek-v4-pro` for general-purpose agents and `deepseek-reasoner` for agents that benefit from chain-of-thought reasoning (R1).
 
 ### 3. Secure your API key
 
@@ -46,13 +48,13 @@ For production use, configure the key through Paperclip's sealed env vars UI rat
 
 ## Known Behaviour
 
-### DeepSeek V4 Pro is a reasoning model
+### Both models use chain-of-thought reasoning
 
-DeepSeek V4 Pro uses internal chain-of-thought tokens before emitting a response. This means:
+Both `deepseek-v4-pro` and `deepseek-reasoner` use internal chain-of-thought tokens before emitting a response. This means:
 
 - **Set `max_tokens` to 500 or higher.** Low values (< ~100) exhaust the token budget during reasoning and produce an empty response body with `finish_reason: length`.
 - The API response includes a `reasoning_content` field alongside `content` — this is normal.
-- Tested live: the model responds correctly with `max_tokens >= 500`. The `config-template.json` defaults to `8192`.
+- Tested live: models respond correctly with `max_tokens >= 500`. The `config-template.json` defaults to `8192` for both.
 
 ## Files
 
