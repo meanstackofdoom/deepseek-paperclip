@@ -7,18 +7,25 @@
       "apiKey": "YOUR_DEEPSEEK_API_KEY_HERE",
       "headers": {},
       "models": {
-        "deepseek-v4-pro": {
-          "label": "DeepSeek V4 Pro",
-          "description": "DeepSeek-V4 production model via OpenAI-compatible API",
+        "deepseek-v4-flash": {
+          "label": "DeepSeek V4 Flash",
+          "description": "DeepSeek-V4 fast model. No thinking mode — safe for multi-turn Paperclip agents.",
           "max_tokens": 8192
         },
+        "deepseek-v4-pro": {
+          "label": "DeepSeek V4 Pro (thinking — single-turn only)",
+          "description": "DeepSeek-V4 production model. Uses thinking mode and emits reasoning_content. Multi-turn use requires the adapter to echo reasoning_content back on every turn — opencode_local does NOT do this. Use only for single-turn tasks or when your adapter handles reasoning_content passback.",
+          "max_tokens": 8192,
+          "maxOutputTokens": 16384
+        },
         "deepseek-reasoner": {
-          "label": "DeepSeek Reasoner",
-          "description": "DeepSeek reasoning model (R1). Emits chain-of-thought in reasoning_content before final response. Use max_tokens >= 500.",
-          "max_tokens": 8192
+          "label": "DeepSeek Reasoner (thinking — single-turn only)",
+          "description": "DeepSeek R1 reasoning model. Same reasoning_content constraint as deepseek-v4-pro. Use max_tokens >= 500.",
+          "max_tokens": 8192,
+          "maxOutputTokens": 16384
         }
       }
     }
   },
-  "defaultModel": "deepseek-v4-pro"
+  "defaultModel": "deepseek-v4-flash"
 }
