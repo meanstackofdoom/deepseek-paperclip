@@ -6,6 +6,7 @@ OpenCode provider configuration for using DeepSeek-V4 with Paperclip via the `@a
 
 - [OpenCode](https://opencode.ai) installed
 - A valid DeepSeek-V4 API key
+- Paperclip running locally (no backend code changes required)
 
 ## Setup
 
@@ -32,11 +33,12 @@ Use `deepseek-v4-flash` for all Paperclip agents that run multi-turn conversatio
 
 ### 3. Secure your API key
 
-Set the `DEEPSEEK_API_KEY` environment variable using sealed environment variables in your Paperclip project settings. **Do not** hardcode the key in any config file or commit it to version control.
+Set both `DEEPSEEK_API_KEY` and `OPENAI_API_KEY` to the same DeepSeek key. This is the runtime mapping OpenCode expects for `@ai-sdk/openai-compatible` in current local setups. **Do not** hardcode keys in committed config files.
 
 ```bash
 # Example: set via your shell profile (do not commit)
 export DEEPSEEK_API_KEY="sk-your-key-here"
+export OPENAI_API_KEY="$DEEPSEEK_API_KEY"
 ```
 
 For production use, configure the key through Paperclip's sealed env vars UI rather than plaintext environment variables.
@@ -84,10 +86,30 @@ Use `deepseek-v4-pro` or `deepseek-reasoner` only for single-turn tasks where th
 
 Both thinking models consume internal reasoning tokens before emitting a response. If `max_tokens` is set below ~100, the token budget is exhausted during reasoning and the visible response is empty. The `config-template.json` defaults to `8192` for all models. Do not lower this below `500`.
 
+### 4. Quick validation (no backend changes)
+
+From a project workspace:
+
+```bash
+opencode run "Reply with exactly one word: OK" --model deepseek/deepseek-v4-pro --format json
+npm run smoke:deepseek
+```
+
+Expected:
+- OpenCode run returns `OK`
+- Smoke script returns `DeepSeek integration OK`
+
 ## Security
 
 - The `config-template.json` contains a placeholder API key (`YOUR_DEEPSEEK_API_KEY_HERE`). Replace it through environment variables or sealed project env vars — **never** by editing the committed config file.
 - This release is a **sanitized extract**. No internal infrastructure paths, credentials, or Paperclip instance metadata are included.
+
+## Validation Snapshot (2026-04-27)
+
+- Scope: all active non-CEO Edict agents (OpenCode + Codex adapters)
+- Result: PASS across connectivity + functional smoke
+- Backend changes: none required in `paperclip` backend repo
+- Key runtime fix: expose DeepSeek key as `OPENAI_API_KEY` for OpenCode provider compatibility
 
 ## Files
 
