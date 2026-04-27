@@ -99,6 +99,17 @@ Expected:
 - OpenCode run returns `OK`
 - Smoke script returns `DeepSeek integration OK`
 
+### 5. Paperclip on-demand run compatibility
+
+Paperclip `opencode_local` runs execute with an isolated temporary `XDG_CONFIG_HOME` that is copied from your local `~/.config/opencode`. That means DeepSeek credentials must already be resolvable by OpenCode runtime config at run start.
+
+Recommended:
+- Keep `OPENAI_API_KEY` exported in the host environment Paperclip runs under, and
+- Ensure `~/.config/opencode/opencode.json` provider config includes DeepSeek auth compatibility for `@ai-sdk/openai-compatible`.
+
+If this is missing, on-demand runs can fail with:
+- `Unauthorized: Authentication Fails (governor)`
+
 ## Security
 
 - The `config-template.json` contains a placeholder API key (`YOUR_DEEPSEEK_API_KEY_HERE`). Replace it through environment variables or sealed project env vars — **never** by editing the committed config file.
